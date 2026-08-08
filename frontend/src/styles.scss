@@ -1,0 +1,298 @@
+/* DeepSurg — global theme
+   Palette: mostly white, a little blue, a touch of purple. */
+
+:root {
+  --ds-white: #ffffff;
+  --ds-paper: #f8fafd;
+  --ds-mist: #eef3fb;
+
+  /* Sampled from the DeepSurg logo — the true brand blue.
+     The scale below is built around it, so the whole site reads as one blue. */
+  --ds-brand: #1a18be;
+
+  --ds-blue-50: #f2f2fd;
+  --ds-blue-100: #dcdbf8;
+  --ds-blue-300: #8a89e6;
+  --ds-blue-500: #3d3bd4;
+  --ds-blue-600: #1a18be;
+  --ds-blue-700: #14119a;
+
+  --ds-purple-50: #f5f2ff;
+  --ds-purple-300: #c4b5fd;
+  --ds-purple-500: #8b5cf6;
+  --ds-purple-600: #7c3aed;
+
+  --ds-ink: #0b1220;
+  --ds-slate: #475569;
+  --ds-slate-light: #7b8794;
+  --ds-line: #e6ecf6;
+
+  --ds-radius: 16px;
+  --ds-radius-lg: 24px;
+  --ds-shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.04), 0 4px 14px rgba(26, 24, 190, 0.06);
+  --ds-shadow: 0 2px 6px rgba(11, 18, 32, 0.05), 0 18px 40px rgba(26, 24, 190, 0.1);
+  --ds-shadow-lift: 0 6px 12px rgba(11, 18, 32, 0.06), 0 28px 60px rgba(124, 58, 237, 0.14);
+
+  --ds-gradient: linear-gradient(120deg, var(--ds-blue-600) 0%, var(--ds-blue-500) 45%, var(--ds-purple-500) 100%);
+
+  --ds-max: 1180px;
+  --ds-header-h: 72px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--ds-header-h) + 16px);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ds-white);
+  color: var(--ds-ink);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.5em;
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+  font-weight: 700;
+  color: var(--ds-ink);
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--ds-slate);
+}
+
+a {
+  color: var(--ds-blue-600);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--ds-purple-600);
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- layout helpers ---------- */
+
+.ds-container {
+  width: 100%;
+  max-width: var(--ds-max);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.ds-section {
+  padding-block: clamp(48px, 5.5vw, 76px);
+}
+
+.ds-section--tint {
+  background: linear-gradient(180deg, var(--ds-white) 0%, var(--ds-blue-50) 55%, var(--ds-white) 100%);
+}
+
+.ds-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--ds-blue-100);
+  background: var(--ds-white);
+  color: var(--ds-blue-700);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.ds-eyebrow__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ds-purple-500);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.16);
+}
+
+.ds-lead {
+  font-size: 1.12rem;
+  max-width: 62ch;
+}
+
+.ds-gradient-text {
+  background: var(--ds-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- buttons ---------- */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease, color 0.18s ease;
+}
+
+.ds-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ds-btn--primary {
+  background: var(--ds-gradient);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(26, 24, 190, 0.3);
+}
+
+.ds-btn--primary:hover:not(:disabled) {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(124, 58, 237, 0.32);
+}
+
+.ds-btn--ghost {
+  background: var(--ds-white);
+  border-color: var(--ds-line);
+  color: var(--ds-ink);
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.ds-btn--ghost:hover:not(:disabled) {
+  color: var(--ds-blue-700);
+  border-color: var(--ds-blue-300);
+  transform: translateY(-2px);
+}
+
+/* ---------- cards ---------- */
+
+.ds-card {
+  background: var(--ds-white);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  padding: 28px;
+  box-shadow: var(--ds-shadow-sm);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.ds-grid {
+  display: grid;
+  gap: 22px;
+}
+
+/* ---------- forms ---------- */
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ds-field label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--ds-ink);
+  letter-spacing: 0.01em;
+}
+
+.ds-field input,
+.ds-field textarea,
+.ds-field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--ds-line);
+  border-radius: 12px;
+  background: var(--ds-white);
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ds-ink);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.ds-field input::placeholder,
+.ds-field textarea::placeholder {
+  color: var(--ds-slate-light);
+}
+
+.ds-field input:focus,
+.ds-field textarea:focus,
+.ds-field select:focus {
+  outline: none;
+  border-color: var(--ds-blue-500);
+  box-shadow: 0 0 0 4px rgba(61, 59, 212, 0.16);
+}
+
+.ds-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.ds-field__error {
+  font-size: 0.78rem;
+  color: #dc2626;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ds-purple-500);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

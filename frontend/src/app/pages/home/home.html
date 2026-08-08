@@ -1,0 +1,295 @@
+<!-- ------------------------------------------------------------- hero -->
+<section class="hero">
+  <ds-nerve-background />
+
+  <div class="ds-container hero__inner">
+    <span class="ds-eyebrow">
+      <span class="ds-eyebrow__dot"></span>
+      AI for surgery
+    </span>
+
+    <h1 class="hero__title">
+      Meet your new<br />
+      <span class="ds-gradient-text">Surgical Assistant</span>
+    </h1>
+
+    <p class="ds-lead hero__lead">
+      A powerful AI for faster, safer, and more precise decisions in every procedure.
+    </p>
+
+    <div class="hero__actions">
+      <a class="ds-btn ds-btn--primary" routerLink="/" fragment="contact">
+        Request a demo
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <a class="ds-btn ds-btn--ghost" routerLink="/" fragment="platform">Explore the platform</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ think -->
+<section class="ds-section ds-section--tint think">
+  <div class="ds-container think__inner">
+    <h2 class="think__title">
+      We think <span class="ds-gradient-text">with you</span>
+    </h2>
+
+    <ul class="think__pillars">
+      @for (pillar of pillars; track pillar.title) {
+        <li class="think__pillar">
+          <span class="think__icon" aria-hidden="true">
+            @switch (pillar.icon) {
+              @case ('realtime') {
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="18" r="12.5" />
+                  <path d="M18 10.5V18l5 3" />
+                  <path d="M25.5 30.5l3.2 3.2 6.3-7" />
+                </svg>
+              }
+              @case ('learning') {
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="20" cy="20" r="4" fill="currentColor" stroke="none" />
+                  <path d="M20 16V7m0 0-3 3m3-3 3 3" />
+                  <path d="M16.5 18 8.5 13m0 0 .6 4.6M8.5 13l4.6-1" />
+                  <path d="M16.5 22 8.5 27m0 0 4.6 1M8.5 27l.6-4.6" />
+                  <path d="M20 24v9m0 0 3-3m-3 3-3-3" />
+                  <path d="M23.5 22l8 5m0 0-.6-4.6m.6 4.6-4.6 1" />
+                  <path d="M23.5 18l8-5m0 0-4.6-1m4.6 1-.6 4.6" />
+                </svg>
+              }
+              @case ('surgeons') {
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="20" cy="12" r="6" />
+                  <circle cx="20" cy="12" r="1.9" fill="currentColor" stroke="none" />
+                  <path d="M8 34v-1.5C8 26.7 13.4 22 20 22s12 4.7 12 10.5V34" />
+                  <path d="M15 23.2V27a5 5 0 0 0 10 0v-3.8" />
+                </svg>
+              }
+            }
+          </span>
+          <p class="think__label">{{ pillar.title }}</p>
+        </li>
+      }
+    </ul>
+
+    <a class="ds-btn ds-btn--ghost think__cta" routerLink="/" fragment="platform">
+      Discover
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- platform -->
+<section id="platform" class="ds-section platform">
+  <div class="ds-container platform__grid">
+    <header class="platform__aside">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Platform</span>
+      <p class="platform__intro">
+        Behind the scenes, we're developing the tech that makes it all possible — an intelligent
+        surgical copilot built for real-time support.
+      </p>
+    </header>
+
+    <ol class="creed">
+      @for (line of creed; track line.lead; let i = $index) {
+        <li class="creed__line">
+          <span class="creed__index">{{ '0' + (i + 1) }}</span>
+          <span class="creed__text">
+            {{ line.lead }} <span class="ds-gradient-text">{{ line.accent }}</span>
+          </span>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- team -->
+<section id="team" class="ds-section ds-section--tint">
+  <div class="ds-container">
+    <header class="head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Leadership</span>
+      <h2>Expert minds behind our intelligent surgical solutions</h2>
+    </header>
+
+    <ul class="team">
+      @for (person of team; track person.name) {
+        <li class="ds-card person">
+          @if (person.photo) {
+            <img class="person__photo" [src]="person.photo" [alt]="person.name" width="112"
+                 height="112" loading="lazy" />
+          } @else {
+            <span class="person__photo person__photo--initials" aria-hidden="true">
+              {{ person.initials }}
+            </span>
+          }
+
+          <h3 class="person__name">{{ person.name }}</h3>
+          <p class="person__role">{{ person.role }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- partners -->
+<section id="partners" class="ds-section partners">
+  <div class="ds-container">
+    <header class="partners__head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Partners</span>
+    </header>
+
+    <ul class="partners__list">
+      @for (partner of partners; track partner.name) {
+        <li class="partners__item">
+          <img [src]="partner.logo" [alt]="partner.name" loading="lazy" />
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- -------------------------------------------------------------- faq -->
+<section id="faq" class="ds-section ds-section--tint">
+  <div class="ds-container">
+    <header class="head faq__head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>FAQ</span>
+      <h2>Answers to FAQs</h2>
+      <p class="ds-lead">
+        Find answers to common questions about DeepSurg. Need more help?
+        <a routerLink="/" fragment="contact">Contact us</a>.
+      </p>
+    </header>
+
+    <ul class="faq">
+      @for (item of faqs; track item.q) {
+        <li>
+          <details class="faq__item">
+            <summary class="faq__q">
+              {{ item.q }}
+              <span class="faq__sign" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round">
+                  <path d="M3 8h10" />
+                  <path class="faq__sign-bar" d="M8 3v10" />
+                </svg>
+              </span>
+            </summary>
+            <p class="faq__a">{{ item.a }}</p>
+          </details>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- network -->
+<section id="network" class="ds-section">
+  <div class="ds-container">
+    <header class="head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Global</span>
+      <h2>Network of connections</h2>
+    </header>
+
+    <ds-globe [markers]="offices" />
+
+    <ul class="offices">
+      @for (office of offices; track office.country) {
+        <li class="ds-card office">
+          <span class="office__country">{{ office.country }}</span>
+          <p class="office__city">{{ office.city }}</p>
+          <p class="office__address">{{ office.address }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- contact -->
+<section id="contact" class="ds-section">
+  <div class="ds-container contact">
+    <div class="contact__intro">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Contact</span>
+      <h2>Let's look at your case data.</h2>
+      <p class="ds-lead">
+        Tell us about your department and what you are trying to see. We will come back with a short
+        technical call — no slideware.
+      </p>
+      <p class="contact__mail">
+        Or email <a href="mailto:omar&#64;deepsurg.ai">omar&#64;deepsurg.ai</a>
+      </p>
+    </div>
+
+    <form class="ds-card contact__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="contact__row">
+        <div class="ds-field">
+          <label for="name">Full name</label>
+          <input id="name" formControlName="name" autocomplete="name" placeholder="Dr. Jane Okafor" />
+          @if (invalid('name')) {
+            <span class="ds-field__error">Please enter your name.</span>
+          }
+        </div>
+
+        <div class="ds-field">
+          <label for="email">Work email</label>
+          <input id="email" type="email" formControlName="email" autocomplete="email"
+                 placeholder="jane@hospital.org" />
+          @if (invalid('email')) {
+            <span class="ds-field__error">Please enter a valid email address.</span>
+          }
+        </div>
+      </div>
+
+      <div class="contact__row">
+        <div class="ds-field">
+          <label for="organisation">Hospital or organisation</label>
+          <input id="organisation" formControlName="organisation" autocomplete="organization"
+                 placeholder="University Hospital" />
+          @if (invalid('organisation')) {
+            <span class="ds-field__error">Please tell us where you work.</span>
+          }
+        </div>
+
+        <div class="ds-field">
+          <label for="interest">I'm interested in</label>
+          <select id="interest" formControlName="interest">
+            @for (option of interests; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="ds-field">
+        <label for="message">What would you like to see?</label>
+        <textarea id="message" formControlName="message"
+                  placeholder="We run around 900 laparoscopic cases a year and want to..."></textarea>
+        @if (invalid('message')) {
+          <span class="ds-field__error">A sentence or two is plenty (10 characters minimum).</span>
+        }
+      </div>
+
+      <div class="contact__submit">
+        <button class="ds-btn ds-btn--primary" type="submit" [disabled]="sending()">
+          {{ sending() ? 'Sending…' : 'Send message' }}
+        </button>
+
+        @if (sent(); as receipt) {
+          <p class="contact__ok">{{ receipt.message }} Reference {{ receipt.id }}.</p>
+        }
+        @if (error()) {
+          <p class="ds-field__error">{{ error() }}</p>
+        }
+      </div>
+    </form>
+  </div>
+</section>
