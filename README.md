@@ -74,3 +74,25 @@ npm run build
 Frontend output lands in `frontend/dist/frontend`, backend in `backend/dist`. The production
 Angular build swaps in `src/environments/environment.production.ts` — set `apiUrl` there to
 wherever the API is deployed.
+
+## Deployment
+
+Two Vercel projects in the `gu1` team, each built from its own directory so Vercel's
+framework detection applies cleanly:
+
+| Project        | Root directory | Framework | URL                                |
+| -------------- | -------------- | --------- | ---------------------------------- |
+| `deepsurg`     | `frontend/`    | Angular   | https://deepsurg.vercel.app        |
+| `deepsurg-api` | `backend/`     | NestJS    | https://deepsurg-api.vercel.app    |
+
+`frontend/vercel.json` rewrites `/api/*` to the API deployment, so the browser keeps talking
+to a single origin — `environment.production.ts` stays on the relative `/api`, and the API
+needs no CORS allowlist.
+
+Both projects deploy from this repo on a push to `main`. Each skips its build when nothing
+in its own directory changed (`git diff --quiet HEAD^ HEAD .` as the ignored build step), so
+a front-end commit does not redeploy the API.
+
+Enquiries posted to `/api/contact` are still held in memory, which on serverless means they
+are logged and then lost — wire `contact.service.ts` to email or a database before relying
+on the form.
