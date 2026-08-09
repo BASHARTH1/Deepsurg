@@ -8,8 +8,8 @@ export class ContactController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  submit(@Body() dto: CreateContactDto) {
-    const enquiry = this.contact.create(dto);
+  async submit(@Body() dto: CreateContactDto) {
+    const enquiry = await this.contact.create(dto);
 
     return {
       id: enquiry.id,

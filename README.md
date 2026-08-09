@@ -49,21 +49,28 @@ the browser only ever talks to one origin. To run either side alone: `npm run de
 
 ## API
 
-| Method | Route                        | Purpose                                  |
-| ------ | ---------------------------- | ---------------------------------------- |
-| GET    | `/api/health`                | Liveness + uptime                        |
-| GET    | `/api/company/capabilities`  | Platform capability cards                |
-| GET    | `/api/company/metrics`       | Hero metric strip                        |
-| GET    | `/api/company/milestones`    | "How it works" steps                     |
-| GET    | `/api/company/overview`      | All of the above in one payload          |
-| POST   | `/api/contact`               | Contact form (validated, returns a ref)  |
+| Method | Route           | Purpose                                 |
+| ------ | --------------- | --------------------------------------- |
+| GET    | `/api/health`   | Liveness + uptime                       |
+| POST   | `/api/contact`  | Contact form (validated, returns a ref) |
 
-Content is served from `backend/src/company/company.service.ts` — swap that for a CMS or
-database later without touching the controller or the Angular client. Contact enquiries are
-held in memory in `contact.service.ts`; point it at a repository or CRM when you are ready.
+Page content is authored in the Angular components, so the contact form is the only thing
+that needs the server.
 
-The front end keeps a local copy of the content (`frontend/src/app/core/api.ts`) and falls
-back to it if the API is unreachable, so the site never renders empty.
+A submitted form is emailed straight out — nothing is stored, because the API runs as a
+serverless function and anything held in memory disappears with the instance. The inbox is
+the record. `contact/mail.service.ts` posts to Resend over HTTPS (no SMTP connection to keep
+alive, no extra dependency) and reads three variables:
+
+| Variable         | Default                        | Notes                                    |
+| ---------------- | ------------------------------ | ---------------------------------------- |
+| `RESEND_API_KEY` | —                              | Required. https://resend.com/api-keys    |
+| `CONTACT_TO`     | `omar@deepsurg.ai`             | Where enquiries land                     |
+| `CONTACT_FROM`   | `DeepSurg <onboarding@resend.dev>` | Must be a sender Resend has verified |
+
+Without a key the endpoint answers `503` and the form tells the visitor to email us
+directly. That is deliberate: better a visible failure than accepting an enquiry nobody
+will ever read.
 
 ## Building
 
@@ -93,6 +100,5 @@ Both projects deploy from this repo on a push to `main`. Each skips its build wh
 in its own directory changed (`git diff --quiet HEAD^ HEAD .` as the ignored build step), so
 a front-end commit does not redeploy the API.
 
-Enquiries posted to `/api/contact` are still held in memory, which on serverless means they
-are logged and then lost — wire `contact.service.ts` to email or a database before relying
-on the form.
+`deepsurg-api` needs `RESEND_API_KEY` set in its Vercel environment variables (see the API
+section above) before the contact form can deliver anything.

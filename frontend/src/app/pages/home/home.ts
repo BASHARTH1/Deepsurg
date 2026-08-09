@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -158,10 +159,14 @@ export class Home {
         this.sent.set(response);
         this.form.reset({ interest: this.interests[0] });
       },
-      error: () => {
+      error: (failure: HttpErrorResponse) => {
         this.sending.set(false);
+        // The API says so itself when it cannot deliver the message; anything
+        // else means we never reached it.
         this.error.set(
-          'We could not reach the DeepSurg API. Please try again, or email omar@deepsurg.ai.',
+          typeof failure.error?.message === 'string'
+            ? failure.error.message
+            : 'We could not reach the DeepSurg API. Please try again, or email omar@deepsurg.ai.',
         );
       },
     });
