@@ -1,8 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Api, ContactResponse } from '../../core/api';
+import { Api } from '../../core/api';
 import { Globe, GlobeMarker } from '../../shared/globe/globe';
 import { NerveBackground } from '../../shared/nerve-background/nerve-background';
 
@@ -135,7 +134,7 @@ export class Home {
   });
 
   readonly sending = signal(false);
-  readonly sent = signal<ContactResponse | null>(null);
+  readonly sent = signal<string | null>(null);
   readonly error = signal<string | null>(null);
 
   invalid(control: keyof typeof this.form.controls): boolean {
@@ -154,20 +153,16 @@ export class Home {
 
     this.sending.set(true);
     this.api.submitContact(this.form.getRawValue()).subscribe({
-      next: (response) => {
+      next: () => {
         this.sending.set(false);
-        this.sent.set(response);
+        this.sent.set(
+          'Thank you — a member of the DeepSurg team will reply within two working days.',
+        );
         this.form.reset({ interest: this.interests[0] });
       },
-      error: (failure: HttpErrorResponse) => {
+      error: () => {
         this.sending.set(false);
-        // The API says so itself when it cannot deliver the message; anything
-        // else means we never reached it.
-        this.error.set(
-          typeof failure.error?.message === 'string'
-            ? failure.error.message
-            : 'We could not reach the DeepSurg API. Please try again, or email omar@deepsurg.ai.',
-        );
+        this.error.set('We could not send your message. Please email omar@deepsurg.ai instead.');
       },
     });
   }

@@ -284,7 +284,7 @@
         </button>
 
         @if (sent(); as receipt) {
-          <p class="contact__ok">{{ receipt.message }} Reference {{ receipt.id }}.</p>
+          <p class="contact__ok">{{ receipt }}</p>
         }
         @if (error()) {
           <p class="ds-field__error">{{ error() }}</p>
