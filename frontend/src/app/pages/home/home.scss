@@ -9,11 +9,20 @@
   margin-top: calc(var(--ds-header-h) * -1);
   padding-block: calc(var(--ds-header-h) + clamp(36px, 4vw, 56px)) clamp(48px, 5.5vw, 76px);
   border-bottom: 1px solid var(--ds-line);
+
+  /* Fills the first screen, so nothing of the next section peeks in. `svh` is
+     the viewport at its smallest — with mobile browser chrome showing — which
+     keeps the buttons above the fold when the address bar is out. */
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
 }
 
 .hero__inner {
   position: relative;
   z-index: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
