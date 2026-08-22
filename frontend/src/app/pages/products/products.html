@@ -1,0 +1,46 @@
+<section class="ds-section head-section">
+  <div class="ds-container">
+    <header class="head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Products</span>
+      <h1>Two products, one model stack.</h1>
+      <p class="ds-lead">
+        <strong>Primo AI</strong> works with the surgeon during the case.
+        <strong>Scala AI</strong> works with the team around it — measuring skill, objectively and
+        at scale.
+      </p>
+    </header>
+  </div>
+</section>
+
+@for (product of products; track product.id) {
+  <section [id]="product.id" class="ds-section product" [class.ds-section--tint]="$even">
+    <div class="ds-container product__grid">
+      <div class="product__intro">
+        <span class="product__mark" aria-hidden="true">
+          <ds-product-icon [icon]="product.icon" />
+        </span>
+        <h2>{{ product.name }}</h2>
+        <p class="product__tagline">{{ product.tagline }}</p>
+      </div>
+
+      <div class="product__body">
+        <p class="product__summary">{{ product.summary }}</p>
+
+        @if (product.intendedUse) {
+          <aside class="notice">
+            <h3 class="notice__title">Intended use</h3>
+            <p>{{ product.intendedUse }}</p>
+          </aside>
+        }
+
+        <a class="ds-btn ds-btn--primary product__cta" routerLink="/" fragment="contact">
+          Request a demo of {{ product.name }}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+}

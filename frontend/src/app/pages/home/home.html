@@ -31,6 +31,41 @@
   </div>
 </section>
 
+<!-- --------------------------------------------------------- products -->
+<section id="products" class="ds-section products">
+  <div class="ds-container">
+    <header class="head products__head">
+      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Products</span>
+      <h2>What we build</h2>
+      <p class="ds-lead">
+        One works with the surgeon during the case. The other works with the team around it.
+      </p>
+    </header>
+
+    <div class="ds-grid products__grid">
+      @for (product of products; track product.id) {
+        <article class="ds-card product">
+          <span class="product__mark" aria-hidden="true">
+            <ds-product-icon [icon]="product.icon" />
+          </span>
+
+          <h3 class="product__name">{{ product.name }}</h3>
+          <p class="product__tagline">{{ product.tagline }}</p>
+          <p class="product__summary">{{ product.summary }}</p>
+
+          <a class="product__more" routerLink="/products" [fragment]="product.id">
+            More about {{ product.name }}
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.7"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
 <!-- ------------------------------------------------------------ think -->
 <section class="ds-section ds-section--tint think">
   <div class="ds-container think__inner">

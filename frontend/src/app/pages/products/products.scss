@@ -1,0 +1,109 @@
+/* The page has no hero, so pay back the height of the transparent header. */
+.head-section {
+  padding-top: calc(var(--ds-header-h) + clamp(40px, 5vw, 72px));
+  background: linear-gradient(180deg, var(--ds-blue-50) 0%, var(--ds-white) 100%);
+}
+
+.head {
+  max-width: 720px;
+  margin-bottom: 0;
+}
+
+.head h1 {
+  margin-top: 18px;
+  font-size: clamp(2.1rem, 4.4vw, 3.2rem);
+}
+
+.head strong {
+  color: var(--ds-ink);
+  font-weight: 700;
+}
+
+.product__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+
+.product__intro {
+  position: sticky;
+  top: calc(var(--ds-header-h) + 40px);
+}
+
+.product__mark {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  color: var(--ds-blue-600);
+  background: linear-gradient(140deg, var(--ds-blue-50), var(--ds-purple-50));
+  border: 1px solid var(--ds-blue-100);
+}
+
+.product__mark ds-product-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.product__intro h2 {
+  margin: 0 0 10px;
+}
+
+.product__tagline {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ds-slate);
+  text-wrap: balance;
+}
+
+.product__summary {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--ds-ink);
+}
+
+/* Regulatory wording — set apart so it reads as a statement, not a sales line. */
+.notice {
+  margin-top: 26px;
+  padding: 22px 24px;
+  border: 1px solid var(--ds-line);
+  border-left: 3px solid var(--ds-blue-600);
+  border-radius: var(--ds-radius);
+  background: var(--ds-white);
+}
+
+.notice__title {
+  margin: 0 0 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ds-blue-700);
+}
+
+.notice p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ds-slate);
+}
+
+.product__cta {
+  margin-top: 28px;
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .product__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product__intro {
+    position: static;
+  }
+}

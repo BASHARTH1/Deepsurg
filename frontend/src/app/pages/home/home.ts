@@ -2,13 +2,15 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Api } from '../../core/api';
+import { PRODUCTS } from '../../core/products';
 import { Globe, GlobeMarker } from '../../shared/globe/globe';
 import { NerveBackground } from '../../shared/nerve-background/nerve-background';
+import { ProductIcon } from '../../shared/product-icon/product-icon';
 
 @Component({
   selector: 'ds-home',
   standalone: true,
-  imports: [Globe, NerveBackground, ReactiveFormsModule, RouterLink],
+  imports: [Globe, NerveBackground, ProductIcon, ReactiveFormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -16,6 +18,8 @@ import { NerveBackground } from '../../shared/nerve-background/nerve-background'
 export class Home {
   private readonly api = inject(Api);
   private readonly fb = inject(FormBuilder);
+
+  readonly products = PRODUCTS;
 
   readonly team = [
     {

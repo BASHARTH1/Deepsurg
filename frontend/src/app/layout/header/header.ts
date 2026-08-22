@@ -3,7 +3,10 @@ import { RouterLink } from '@angular/router';
 
 interface NavItem {
   label: string;
-  fragment: string;
+  /** Route to visit. Defaults to the home page. */
+  path?: string;
+  /** Section to scroll to once there. */
+  fragment?: string;
 }
 
 @Component({
@@ -19,8 +22,10 @@ interface NavItem {
         </a>
 
         <nav class="hd__nav" [class.hd__nav--open]="open()" aria-label="Primary">
-          @for (item of nav; track item.fragment) {
-            <a routerLink="/" [fragment]="item.fragment" (click)="close()">{{ item.label }}</a>
+          @for (item of nav; track item.label) {
+            <a [routerLink]="item.path ?? '/'" [fragment]="item.fragment" (click)="close()">
+              {{ item.label }}
+            </a>
           }
           <a class="ds-btn ds-btn--primary hd__cta" routerLink="/" fragment="contact" (click)="close()">
             Request a demo
@@ -198,6 +203,7 @@ interface NavItem {
 })
 export class Header {
   readonly nav: NavItem[] = [
+    { label: 'Products', path: '/products' },
     { label: 'Platform', fragment: 'platform' },
     { label: 'Leadership', fragment: 'team' },
     { label: 'Partners', fragment: 'partners' },
