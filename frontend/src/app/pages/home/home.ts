@@ -33,7 +33,7 @@ export class Home {
     {
       name: 'Zechang Xue',
       role: 'Data Science Team Lead',
-      photo: '',
+      photo: 'team/zechang-xue.webp',
       initials: 'ZX',
     },
   ];
