@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PRODUCTS } from '../../core/products';
+import { NerveBackground } from '../../shared/nerve-background/nerve-background';
 import { ProductIcon } from '../../shared/product-icon/product-icon';
 
 @Component({
   selector: 'ds-products',
   standalone: true,
-  imports: [ProductIcon, RouterLink],
+  imports: [NerveBackground, ProductIcon, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './products.html',
   styleUrl: './products.scss',

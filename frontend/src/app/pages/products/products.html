@@ -1,46 +1,76 @@
-<section class="ds-section head-section">
-  <div class="ds-container">
-    <header class="head">
-      <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Products</span>
-      <h1>Two products, one model stack.</h1>
-      <p class="ds-lead">
-        <strong>Primo AI</strong> works with the surgeon during the case.
-        <strong>Scala AI</strong> works with the team around it — measuring skill, objectively and
-        at scale.
-      </p>
-    </header>
+<!-- ----------------------------------------------------------- header -->
+<section class="masthead">
+  <ds-nerve-background [density]="0.6" />
+
+  <div class="ds-container masthead__inner">
+    <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Products</span>
+
+    <h1 class="masthead__title">
+      Two products,<br />
+      <span class="ds-gradient-text">one model stack</span>
+    </h1>
+
+    <p class="ds-lead masthead__lead">
+      Primo AI works with the surgeon during the case. Scala AI works with the team around it.
+    </p>
+
+    <nav class="jump" aria-label="Products">
+      @for (product of products; track product.id) {
+        <a class="jump__link" [href]="'#' + product.id">
+          <span class="jump__icon" aria-hidden="true">
+            <ds-product-icon [icon]="product.icon" />
+          </span>
+          {{ product.name }}
+        </a>
+      }
+    </nav>
   </div>
 </section>
 
-@for (product of products; track product.id) {
-  <section [id]="product.id" class="ds-section product" [class.ds-section--tint]="$even">
-    <div class="ds-container product__grid">
-      <div class="product__intro">
-        <span class="product__mark" aria-hidden="true">
-          <ds-product-icon [icon]="product.icon" />
-        </span>
-        <h2>{{ product.name }}</h2>
-        <p class="product__tagline">{{ product.tagline }}</p>
-      </div>
+<!-- --------------------------------------------------------- products -->
+@for (product of products; track product.id; let i = $index) {
+  <section [id]="product.id" class="ds-section slab" [class.slab--tint]="$odd">
+    <div class="ds-container">
+      <article class="panel">
+        <span class="panel__index" aria-hidden="true">{{ '0' + (i + 1) }}</span>
 
-      <div class="product__body">
-        <p class="product__summary">{{ product.summary }}</p>
+        <header class="panel__head">
+          <span class="panel__mark" aria-hidden="true">
+            <ds-product-icon [icon]="product.icon" />
+          </span>
+
+          <div>
+            <h2 class="panel__name">{{ product.name }}</h2>
+            <p class="panel__tagline">{{ product.tagline }}</p>
+          </div>
+        </header>
+
+        <p class="panel__summary">{{ product.summary }}</p>
 
         @if (product.intendedUse) {
-          <aside class="notice">
-            <h3 class="notice__title">Intended use</h3>
+          <details class="notice">
+            <summary class="notice__title">
+              Intended use
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 6.5 8 10.5l4-4" stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
             <p>{{ product.intendedUse }}</p>
-          </aside>
+          </details>
         }
 
-        <a class="ds-btn ds-btn--primary product__cta" routerLink="/" fragment="contact">
-          Request a demo of {{ product.name }}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-      </div>
+        <footer class="panel__foot">
+          <a class="ds-btn ds-btn--primary" routerLink="/" fragment="contact">
+            Request a demo
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <span class="panel__full">{{ product.fullName }}</span>
+        </footer>
+      </article>
     </div>
   </section>
 }
