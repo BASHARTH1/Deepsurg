@@ -1,10 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "dist/frontend/browser",
-  "rewrites": [
+  "crons": [
     {
-      "source": "/api/:path*",
-      "destination": "https://deepsurg-api.vercel.app/api/:path*"
+      "path": "/api/keepalive",
+      "schedule": "0 6 * * *"
     }
   ]
 }
