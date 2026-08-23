@@ -147,6 +147,31 @@ export class Blog {
     }
   }
 
+  /**
+   * Puts a cover image in the `blog` bucket and hands back its public URL.
+   *
+   * The picture is shrunk and re-encoded in the browser first: a phone photo is
+   * several megabytes, and nothing on the page is shown wider than about 1600px.
+   */
+  async uploadCover(file: File, slug: string): Promise<string> {
+    const db = await this.require();
+
+    const image = await shrink(file);
+    const name = `${slug || 'post'}-${Date.now()}.webp`;
+
+    const { error } = await db.storage.from('blog').upload(name, image, {
+      contentType: 'image/webp',
+      cacheControl: '31536000',
+      upsert: true,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return db.storage.from('blog').getPublicUrl(name).data.publicUrl;
+  }
+
   /** Resolves once the stored session, if any, has been read back. */
   async ready(): Promise<void> {
     await this.db();
@@ -181,6 +206,33 @@ export class Blog {
     }
     return db;
   }
+}
+
+/** Widest a cover is ever displayed, so anything larger is wasted bytes. */
+const COVER_WIDTH = 1600;
+
+/** Scales an image down and re-encodes it as WebP. */
+async function shrink(file: File): Promise<Blob> {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, COVER_WIDTH / bitmap.width);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    // No canvas: send the original rather than losing the upload.
+    return file;
+  }
+
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, 'image/webp', 0.85),
+  );
+  return blob ?? file;
 }
 
 /** Turns a title into a URL-safe slug. */

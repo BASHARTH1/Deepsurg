@@ -22,6 +22,7 @@ export class Admin {
   readonly posts = signal<Post[]>([]);
   readonly editing = signal<Post | null>(null);
   readonly busy = signal(false);
+  readonly uploading = signal(false);
   readonly error = signal<string | null>(null);
   readonly note = signal<string | null>(null);
 
@@ -139,6 +140,34 @@ export class Admin {
     } finally {
       this.busy.set(false);
     }
+  }
+
+  async pickCover(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    this.uploading.set(true);
+    this.error.set(null);
+
+    try {
+      const url = await this.blog.uploadCover(file, this.post.controls.slug.value);
+      this.post.controls.cover_url.setValue(url);
+      this.post.controls.cover_url.markAsDirty();
+    } catch (failure) {
+      this.error.set(`Could not upload the image: ${(failure as Error).message}`);
+    } finally {
+      this.uploading.set(false);
+      // Let the same file be chosen again after a failure.
+      input.value = '';
+    }
+  }
+
+  clearCover(): void {
+    this.post.controls.cover_url.setValue('');
+    this.post.controls.cover_url.markAsDirty();
   }
 
   invalid(control: keyof typeof this.post.controls): boolean {

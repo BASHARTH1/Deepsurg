@@ -44,6 +44,29 @@ account required.
 With no key set the form refuses to submit and tells the visitor to email us directly,
 rather than pretending to have sent something.
 
+## Blog
+
+Posts live in Supabase and the site reads them straight from the browser, so
+there is still no server. Authorisation is the database's job, not Angular's
+(`supabase/schema.sql`): anyone may read published posts, while drafts and any
+write need a signed-in user whose address is listed in the `admins` table.
+
+| Path          | Purpose                                    |
+| ------------- | ------------------------------------------ |
+| `/blog`       | Published posts, newest first              |
+| `/blog/:slug` | One post                                   |
+| `/admin`      | Write, edit, publish and delete            |
+
+Cover images go to the `blog` storage bucket (`supabase/storage.sql`), shrunk to
+1600px and re-encoded as WebP in the browser first. The bucket reads publicly and
+only admins may write to it.
+
+A Vercel cron reads one row every morning (`frontend/api/keepalive.js`), because
+a free Supabase project pauses after seven days idle.
+
+Both Supabase values in the environment files are public by design — the
+policies above are what protect the data.
+
 ## Building
 
 ```powershell

@@ -76,8 +76,30 @@
           </div>
 
           <div class="ds-field">
-            <label>Cover image URL <em>(optional)</em></label>
-            <input formControlName="cover_url" placeholder="https://…" />
+            <label>Cover image <em>(optional)</em></label>
+
+            @if (post.controls.cover_url.value) {
+              <div class="cover">
+                <img [src]="post.controls.cover_url.value" alt="Cover preview" />
+                <button type="button" class="cover__clear" (click)="clearCover()">Remove</button>
+              </div>
+            }
+
+            <label class="upload" [class.upload--busy]="uploading()">
+              <input type="file" accept="image/*" (change)="pickCover($event)"
+                     [disabled]="uploading()" />
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                   stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M10 14V4m0 0L6 8m4-4 4 4" />
+                <path d="M3 14v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2" />
+              </svg>
+              {{ uploading() ? 'Uploading…' : post.controls.cover_url.value ? 'Replace image' : 'Choose an image' }}
+            </label>
+
+            <small class="ds-field__hint">
+              Resized to 1600px wide and saved as WebP before it is uploaded.
+            </small>
           </div>
 
           <div class="ds-field">
