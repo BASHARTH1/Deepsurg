@@ -13,6 +13,6 @@ export const environment = {
    * database enforces who may read drafts and who may publish (supabase/schema.sql).
    * Leave blank and the blog reports itself as unconfigured instead of breaking.
    */
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  supabaseUrl: 'https://trwkrtgxthksveczdkpv.supabase.co',
+  supabaseAnonKey: 'sb_publishable_mF0VQGL11VhOIwPYrlX0SA_L5zgfrgj',
 };
