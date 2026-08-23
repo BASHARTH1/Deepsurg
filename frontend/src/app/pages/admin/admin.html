@@ -1,0 +1,143 @@
+<section class="ds-section admin">
+  <div class="ds-container admin__inner">
+    <header class="admin__head">
+      <div>
+        <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Admin</span>
+        <h1>Blog</h1>
+      </div>
+
+      @if (blog.admin(); as who) {
+        <div class="admin__who">
+          <span>{{ who }}</span>
+          <button type="button" class="ds-btn ds-btn--ghost" (click)="signOut()">Sign out</button>
+        </div>
+      }
+    </header>
+
+    @if (!blog.configured) {
+      <p class="panel panel--warn">
+        No Supabase project is configured yet, so there is nowhere to save posts. Add
+        <code>supabaseUrl</code> and <code>supabaseAnonKey</code> to the environment files.
+      </p>
+    } @else if (!blog.admin()) {
+      <!-- ------------------------------------------------------ sign in -->
+      <form class="ds-card signin" [formGroup]="login" (ngSubmit)="signIn()" novalidate>
+        <h2>Sign in</h2>
+
+        <div class="ds-field">
+          <label>Email</label>
+          <input type="email" formControlName="email" autocomplete="username" />
+        </div>
+
+        <div class="ds-field">
+          <label>Password</label>
+          <input type="password" formControlName="password" autocomplete="current-password" />
+        </div>
+
+        <button class="ds-btn ds-btn--primary" type="submit" [disabled]="busy()">
+          {{ busy() ? 'Signing in…' : 'Sign in' }}
+        </button>
+
+        @if (error()) {
+          <p class="ds-field__error">{{ error() }}</p>
+        }
+      </form>
+    } @else {
+      <!-- ------------------------------------------------------- editor -->
+      <div class="admin__grid">
+        <form class="ds-card editor" [formGroup]="post" (ngSubmit)="save()" novalidate>
+          <h2>{{ editing() ? 'Edit post' : 'New post' }}</h2>
+
+          <div class="ds-field">
+            <label>Title</label>
+            <input formControlName="title" (input)="onTitle()" placeholder="A title for the post" />
+            @if (invalid('title')) {
+              <small class="ds-field__error">Give the post a title.</small>
+            }
+          </div>
+
+          <div class="editor__row">
+            <div class="ds-field">
+              <label>Slug</label>
+              <input formControlName="slug" placeholder="a-title-for-the-post" />
+              <small class="ds-field__hint">deepsurg.ai/blog/{{ post.controls.slug.value }}</small>
+            </div>
+
+            <div class="ds-field">
+              <label>Tag</label>
+              <input formControlName="tag" placeholder="News" />
+            </div>
+          </div>
+
+          <div class="ds-field">
+            <label>Excerpt</label>
+            <textarea rows="2" formControlName="excerpt"
+                      placeholder="One or two lines, shown in the list and on the home page."></textarea>
+          </div>
+
+          <div class="ds-field">
+            <label>Cover image URL <em>(optional)</em></label>
+            <input formControlName="cover_url" placeholder="https://…" />
+          </div>
+
+          <div class="ds-field">
+            <label>Body</label>
+            <textarea rows="14" formControlName="body"
+                      placeholder="Write the post. Leave a blank line between paragraphs."></textarea>
+            @if (invalid('body')) {
+              <small class="ds-field__error">The post needs some body text.</small>
+            }
+          </div>
+
+          <label class="switch">
+            <input type="checkbox" formControlName="published" />
+            <span>Published — visible on the site</span>
+          </label>
+
+          <div class="editor__actions">
+            <button class="ds-btn ds-btn--primary" type="submit" [disabled]="busy()">
+              {{ busy() ? 'Saving…' : editing() ? 'Save changes' : 'Create post' }}
+            </button>
+            @if (editing()) {
+              <button class="ds-btn ds-btn--ghost" type="button" (click)="reset()">Cancel</button>
+            }
+          </div>
+
+          @if (error()) {
+            <p class="ds-field__error">{{ error() }}</p>
+          }
+          @if (note()) {
+            <p class="editor__note">{{ note() }}</p>
+          }
+        </form>
+
+        <!-- ------------------------------------------------------ list -->
+        <aside class="listing">
+          <h2>Posts <span>{{ posts().length }}</span></h2>
+
+          @if (!posts().length) {
+            <p class="listing__empty">Nothing written yet.</p>
+          }
+
+          <ul>
+            @for (item of posts(); track item.id) {
+              <li class="row" [class.row--draft]="!item.published">
+                <div class="row__text">
+                  <strong>{{ item.title }}</strong>
+                  <span>
+                    {{ item.published ? 'Published' : 'Draft' }}
+                    · {{ item.updated_at | date: 'd MMM y' }}
+                  </span>
+                </div>
+                <div class="row__actions">
+                  <button type="button" (click)="edit(item)">Edit</button>
+                  <button type="button" class="row__delete" (click)="remove(item)">Delete</button>
+                </div>
+              </li>
+            }
+          </ul>
+        </aside>
+      </div>
+    }
+  </div>
+</section>

@@ -204,6 +204,7 @@ interface NavItem {
 export class Header {
   readonly nav: NavItem[] = [
     { label: 'Products', path: '/products' },
+    { label: 'Blog', path: '/blog' },
     { label: 'Platform', fragment: 'platform' },
     { label: 'Leadership', fragment: 'team' },
     { label: 'Partners', fragment: 'partners' },

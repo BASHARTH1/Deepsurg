@@ -227,6 +227,47 @@
   </div>
 </section>
 
+<!-- ------------------------------------------------------------- blog -->
+@if (latest().length) {
+  <section id="blog" class="ds-section">
+    <div class="ds-container">
+      <header class="head latest__head">
+        <div>
+          <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Blog</span>
+          <h2>Latest from DeepSurg</h2>
+        </div>
+        <a class="latest__all" routerLink="/blog">
+          All posts
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.7"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </header>
+
+      <ul class="ds-grid latest">
+        @for (post of latest(); track post.id) {
+          <li>
+            <a class="ds-card latest__item" [routerLink]="['/blog', post.slug]">
+              @if (post.cover_url) {
+                <img [src]="post.cover_url" alt="" loading="lazy" />
+              }
+              <span class="latest__meta">
+                <span class="latest__tag">{{ post.tag }}</span>
+                <time [attr.datetime]="post.published_at">
+                  {{ post.published_at | date: 'd MMM y' }}
+                </time>
+              </span>
+              <h3>{{ post.title }}</h3>
+              <p>{{ post.excerpt }}</p>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+}
+
 <!-- ---------------------------------------------------------- network -->
 <section id="network" class="ds-section">
   <div class="ds-container">

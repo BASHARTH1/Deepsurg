@@ -1,0 +1,243 @@
+.admin {
+  padding-top: calc(var(--ds-header-h) + clamp(28px, 4vw, 48px));
+  min-height: 70vh;
+  background: linear-gradient(180deg, var(--ds-blue-50) 0%, var(--ds-white) 340px);
+}
+
+.admin__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.admin__head h1 {
+  margin: 14px 0 0;
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+}
+
+.admin__who {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.9rem;
+  color: var(--ds-slate);
+}
+
+.panel--warn {
+  padding: 20px 22px;
+  border: 1px solid var(--ds-blue-100);
+  border-left: 3px solid var(--ds-purple-500);
+  border-radius: var(--ds-radius);
+  background: var(--ds-white);
+  color: var(--ds-slate);
+  line-height: 1.65;
+}
+
+.panel--warn code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--ds-blue-50);
+  color: var(--ds-blue-700);
+  font-size: 0.9em;
+}
+
+/* ------------------------------------------------------------- sign in */
+
+.signin {
+  display: grid;
+  gap: 16px;
+  max-width: 420px;
+  padding: 30px;
+}
+
+.signin h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+/* -------------------------------------------------------------- editor */
+
+.admin__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.editor {
+  display: grid;
+  gap: 18px;
+  padding: 30px;
+}
+
+.editor h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.editor__row {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 16px;
+}
+
+.ds-field__hint {
+  font-size: 0.76rem;
+  color: var(--ds-slate-light);
+  word-break: break-all;
+}
+
+.ds-field em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--ds-slate-light);
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ds-ink);
+  cursor: pointer;
+}
+
+.switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ds-blue-600);
+}
+
+.editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.editor__note {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ds-blue-700);
+}
+
+/* ------------------------------------------------------------- listing */
+
+.listing {
+  padding: 26px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-white);
+  box-shadow: var(--ds-shadow-sm);
+  position: sticky;
+  top: calc(var(--ds-header-h) + 24px);
+}
+
+.listing h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.listing h2 span {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ds-slate-light);
+}
+
+.listing__empty {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ds-slate-light);
+}
+
+.listing ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--ds-line);
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.row__text {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.row__text strong {
+  font-size: 0.94rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row__text span {
+  font-size: 0.76rem;
+  color: var(--ds-slate-light);
+}
+
+/* Drafts read quieter than what is live. */
+.row--draft .row__text strong {
+  color: var(--ds-slate);
+}
+
+.row__actions {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.row__actions button {
+  padding: 6px 10px;
+  border: 1px solid var(--ds-line);
+  border-radius: 8px;
+  background: var(--ds-white);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ds-slate);
+  cursor: pointer;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.row__actions button:hover {
+  color: var(--ds-blue-700);
+  border-color: var(--ds-blue-300);
+}
+
+.row__delete:hover {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+@media (max-width: 900px) {
+  .admin__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .listing {
+    position: static;
+  }
+
+  .editor__row {
+    grid-template-columns: 1fr;
+  }
+}

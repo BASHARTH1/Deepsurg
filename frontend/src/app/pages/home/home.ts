@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Api } from '../../core/api';
+import { Blog, Post } from '../../core/blog';
 import { PRODUCTS } from '../../core/products';
 import { Globe, GlobeMarker } from '../../shared/globe/globe';
 import { NerveBackground } from '../../shared/nerve-background/nerve-background';
@@ -10,14 +12,18 @@ import { ProductIcon } from '../../shared/product-icon/product-icon';
 @Component({
   selector: 'ds-home',
   standalone: true,
-  imports: [Globe, NerveBackground, ProductIcon, ReactiveFormsModule, RouterLink],
+  imports: [DatePipe, Globe, NerveBackground, ProductIcon, ReactiveFormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
   private readonly api = inject(Api);
+  private readonly blog = inject(Blog);
   private readonly fb = inject(FormBuilder);
+
+  /** The three most recent posts; the section hides itself when empty. */
+  readonly latest = signal<Post[]>([]);
 
   readonly products = PRODUCTS;
 
@@ -140,6 +146,13 @@ export class Home {
   readonly sending = signal(false);
   readonly sent = signal<string | null>(null);
   readonly error = signal<string | null>(null);
+
+  constructor() {
+    this.blog
+      .published(3)
+      .then((posts) => this.latest.set(posts))
+      .catch(() => this.latest.set([]));
+  }
 
   invalid(control: keyof typeof this.form.controls): boolean {
     const field = this.form.controls[control];

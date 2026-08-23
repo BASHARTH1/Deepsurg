@@ -11,5 +11,20 @@ export const routes: Routes = [
     title: 'Products — DeepSurg',
     loadComponent: () => import('./pages/products/products').then((m) => m.Products),
   },
+  {
+    path: 'blog',
+    title: 'Blog — DeepSurg',
+    loadComponent: () => import('./pages/blog/blog-list').then((m) => m.BlogList),
+  },
+  {
+    path: 'blog/:slug',
+    title: 'Blog — DeepSurg',
+    loadComponent: () => import('./pages/blog/blog-post').then((m) => m.BlogPost),
+  },
+  {
+    path: 'admin',
+    title: 'Admin — DeepSurg',
+    loadComponent: () => import('./pages/admin/admin').then((m) => m.Admin),
+  },
   { path: '**', redirectTo: '' },
 ];
