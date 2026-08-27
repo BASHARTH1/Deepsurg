@@ -26,11 +26,33 @@ export interface GlobeMarker {
   address?: string;
 }
 
+/** A country to pick out, without a pin on it. */
+export interface GlobeRegion {
+  /** ISO A3, e.g. 'TUR'. */
+  code: string;
+  label: string;
+}
+
 /** What the pointer is currently over, in CSS pixels. */
 interface Hover {
-  marker: GlobeMarker;
+  title: string;
+  detail: string;
+  /** Which palette the tooltip heading uses. */
+  tone: 'office' | 'partner';
+  /** Set when the pointer is on a pin, so the marker can swell. */
+  marker?: GlobeMarker;
   x: number;
   y: number;
+}
+
+/** How a mask id maps back to what it represents. */
+interface RegionRef {
+  kind: 'office' | 'partner';
+  /** ISO A3 of the country filled for this id. */
+  code: string;
+  marker?: GlobeMarker;
+  title: string;
+  detail: string;
 }
 
 /** Degrees the north pole is tipped towards the viewer. */
@@ -51,6 +73,8 @@ const OCEAN: [number, number, number] = [233, 237, 252];
 const LAND: [number, number, number] = [30, 28, 198];
 /** The countries DeepSurg sits in. */
 const HOME: [number, number, number] = [225, 40, 52];
+/** Partnership and project sites. */
+const PARTNER: [number, number, number] = [139, 92, 246];
 
 /** How near the pointer has to get to a pin, in CSS pixels, to count as over it. */
 const HOVER_REACH = 16;
@@ -85,10 +109,11 @@ interface Projected {
     <canvas #canvas [attr.aria-label]="caption()" role="img"></canvas>
 
     @if (hover(); as spot) {
-      <div class="tip" [style.left.px]="spot.x" [style.top.px]="spot.y">
-        <strong>{{ spot.marker.label }}</strong>
-        @if (spot.marker.address) {
-          <span>{{ spot.marker.address }}</span>
+      <div class="tip" [class.tip--partner]="spot.tone === 'partner'"
+           [style.left.px]="spot.x" [style.top.px]="spot.y">
+        <strong>{{ spot.title }}</strong>
+        @if (spot.detail) {
+          <span>{{ spot.detail }}</span>
         }
       </div>
     }
@@ -137,6 +162,10 @@ interface Projected {
         color: #e12834;
       }
 
+      .tip--partner strong {
+        color: #7c3aed;
+      }
+
       .tip span {
         display: block;
         margin-top: 3px;
@@ -149,6 +178,8 @@ interface Projected {
 })
 export class Globe implements AfterViewInit, OnDestroy {
   readonly markers = input<readonly GlobeMarker[]>([]);
+  /** Countries to tint without pinning — partnership and project sites. */
+  readonly regions = input<readonly GlobeRegion[]>([]);
 
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   private readonly zone = inject(NgZone);
@@ -165,8 +196,10 @@ export class Globe implements AfterViewInit, OnDestroy {
   /** Land mask: one byte per equirectangular cell, 255 where there is land. */
   private mask: Uint8Array | null = null;
 
-  /** Region mask: 0 for nowhere, otherwise the marker index plus one. */
-  private regions: Uint8Array | null = null;
+  /** Region mask: 0 for nowhere, otherwise an id into `regionRefs`. */
+  private regionMask: Uint8Array | null = null;
+  /** Indexed by mask id minus one. */
+  private regionRefs: RegionRef[] = [];
 
   /** Offscreen buffer the sphere is painted into, then blitted up to size. */
   private buffer: HTMLCanvasElement | null = null;
@@ -183,6 +216,7 @@ export class Globe implements AfterViewInit, OnDestroy {
   private readonly oceanRamp = ramp(OCEAN);
   private readonly landRamp = ramp(LAND);
   private readonly homeRamp = ramp(HOME);
+  private readonly partnerRamp = ramp(PARTNER);
 
   /** Longitude sitting dead centre. Starts on Europe. */
   private rotation = -2;
@@ -195,10 +229,20 @@ export class Globe implements AfterViewInit, OnDestroy {
   private observer?: ResizeObserver;
 
   protected caption(): string {
-    const places = this.markers().map((m) => m.label);
-    return places.length
-      ? `Rotating globe marking DeepSurg offices in ${places.join(' and ')}`
-      : 'Rotating globe';
+    const offices = this.markers().map((m) => m.label);
+    const sites = this.regions().map((r) => r.label);
+    if (!offices.length && !sites.length) {
+      return 'Rotating globe';
+    }
+
+    const parts = [];
+    if (offices.length) {
+      parts.push(`offices in ${offices.join(' and ')}`);
+    }
+    if (sites.length) {
+      parts.push(`partnership and project sites in ${sites.join(', ')}`);
+    }
+    return `Rotating globe marking DeepSurg ${parts.join(', and ')}`;
   }
 
   ngAfterViewInit(): void {
@@ -277,13 +321,11 @@ export class Globe implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const list = this.markers();
-
     // A pin is a handful of pixels across, so give the pointer some reach —
     // otherwise the countries would be near impossible to hit at globe scale.
     let nearest: GlobeMarker | null = null;
     let best = HOVER_REACH;
-    for (const marker of list) {
+    for (const marker of this.markers()) {
       const p = this.project(marker.lat, marker.lon);
       if (p.depth <= 0.06) {
         continue;
@@ -295,18 +337,26 @@ export class Globe implements AfterViewInit, OnDestroy {
       }
     }
 
-    // Otherwise fall back to whichever highlighted country is under the pointer.
-    if (!nearest) {
-      const spot = this.locate(x, y);
-      if (spot !== null && this.regions) {
-        const id = this.regions[spot];
-        if (id) {
-          nearest = list[id - 1] ?? null;
-        }
-      }
+    if (nearest) {
+      this.setHover({
+        title: nearest.label,
+        detail: nearest.address ?? '',
+        tone: 'office',
+        marker: nearest,
+        x,
+        y,
+      });
+      return;
     }
 
-    this.setHover(nearest ? { marker: nearest, x, y } : null);
+    // Otherwise, whichever highlighted country is under the pointer.
+    const spot = this.locate(x, y);
+    const id = spot !== null && this.regionMask ? this.regionMask[spot] : 0;
+    const ref = id ? this.regionRefs[id - 1] : undefined;
+
+    this.setHover(
+      ref ? { title: ref.title, detail: ref.detail, tone: ref.kind, marker: ref.marker, x, y } : null,
+    );
   }
 
   /** Canvas point to a cell in the equirectangular masks, or null off-globe. */
@@ -339,7 +389,13 @@ export class Globe implements AfterViewInit, OnDestroy {
     if (!next && !current) {
       return;
     }
-    if (next && current && next.marker === current.marker && next.x === current.x && next.y === current.y) {
+    if (
+      next &&
+      current &&
+      next.title === current.title &&
+      next.x === current.x &&
+      next.y === current.y
+    ) {
       return;
     }
     this.zone.run(() => this.hover.set(next));
@@ -385,14 +441,31 @@ export class Globe implements AfterViewInit, OnDestroy {
     }
     this.mask = mask;
 
-    // Second pass for the countries an office sits in. Each is filled on its
-    // own so the mask can say which marker a pixel belongs to.
-    const list = this.markers();
-    const regions = new Uint8Array(MASK_W * MASK_H);
+    // Second pass for the countries worth picking out. Each is filled on its
+    // own so the mask can say which one a pixel belongs to.
+    const refs: RegionRef[] = [
+      ...this.markers()
+        .filter((marker) => marker.region)
+        .map((marker) => ({
+          kind: 'office' as const,
+          marker,
+          code: marker.region as string,
+          title: marker.label,
+          detail: marker.address ?? '',
+        })),
+      ...this.regions().map((region) => ({
+        kind: 'partner' as const,
+        code: region.code,
+        title: region.label,
+        detail: 'Partnership and project site',
+      })),
+    ];
+
+    const regionMask = new Uint8Array(MASK_W * MASK_H);
     let marked = false;
 
-    list.forEach((marker, index) => {
-      const rings = COUNTRY_SHAPES.filter((shape) => shape.code === marker.region);
+    refs.forEach((ref, index) => {
+      const rings = COUNTRY_SHAPES.filter((shape) => shape.code === ref.code);
       if (!rings.length) {
         return;
       }
@@ -403,15 +476,16 @@ export class Globe implements AfterViewInit, OnDestroy {
       }
 
       const painted = ctx.getImageData(0, 0, MASK_W, MASK_H).data;
-      for (let i = 0; i < regions.length; i++) {
+      for (let i = 0; i < regionMask.length; i++) {
         if (painted[i * 4 + 3] > 127) {
-          regions[i] = index + 1;
+          regionMask[i] = index + 1;
           marked = true;
         }
       }
     });
 
-    this.regions = marked ? regions : null;
+    this.regionRefs = refs;
+    this.regionMask = marked ? regionMask : null;
   }
 
   // ------------------------------------------------------------------ canvas
@@ -567,8 +641,11 @@ export class Globe implements AfterViewInit, OnDestroy {
 
       const col = ((lon + 180) * MASK_PPD) | 0;
       const cell = row + (col < MASK_W ? col : MASK_W - 1);
-      const ramp = this.regions?.[cell]
-        ? this.homeRamp
+      const region = this.regionMask?.[cell];
+      const ramp = region
+        ? this.regionRefs[region - 1]?.kind === 'partner'
+          ? this.partnerRamp
+          : this.homeRamp
         : mask[cell] > 127
           ? this.landRamp
           : this.oceanRamp;

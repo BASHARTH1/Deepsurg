@@ -276,7 +276,12 @@
       <h2>Network of connections</h2>
     </header>
 
-    <ds-globe [markers]="offices" />
+    <ds-globe [markers]="offices" [regions]="sites" />
+
+    <ul class="key">
+      <li><span class="key__dot key__dot--office"></span>Offices</li>
+      <li><span class="key__dot key__dot--site"></span>Partnership &amp; project sites</li>
+    </ul>
 
     <ul class="offices">
       @for (office of offices; track office.country) {

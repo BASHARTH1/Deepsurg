@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { Api } from '../../core/api';
 import { Blog, Post } from '../../core/blog';
 import { PRODUCTS } from '../../core/products';
-import { Globe, GlobeMarker } from '../../shared/globe/globe';
+import { Globe, GlobeMarker, GlobeRegion } from '../../shared/globe/globe';
 import { NerveBackground } from '../../shared/nerve-background/nerve-background';
 import { ProductIcon } from '../../shared/product-icon/product-icon';
 
@@ -90,6 +90,17 @@ export class Home {
       side: 'right',
       region: 'NLD',
     },
+  ];
+
+  /** Tinted on the globe, without a pin — no single address to point at. */
+  readonly sites: readonly GlobeRegion[] = [
+    { code: 'TUR', label: 'Türkiye' },
+    { code: 'SAU', label: 'Saudi Arabia' },
+    { code: 'ESP', label: 'Spain' },
+    { code: 'DNK', label: 'Denmark' },
+    { code: 'CHE', label: 'Switzerland' },
+    { code: 'HUN', label: 'Hungary' },
+    { code: 'CAN', label: 'Canada' },
   ];
 
   readonly faqs = [
