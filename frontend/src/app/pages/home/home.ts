@@ -4,8 +4,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Api } from '../../core/api';
 import { Blog, Post } from '../../core/blog';
+import { OFFICES, PARTNERS, SITES, TEAM } from '../../core/company';
 import { PRODUCTS } from '../../core/products';
-import { Globe, GlobeMarker, GlobeRegion } from '../../shared/globe/globe';
+import { Globe } from '../../shared/globe/globe';
 import { NerveBackground } from '../../shared/nerve-background/nerve-background';
 import { ProductIcon } from '../../shared/product-icon/product-icon';
 
@@ -27,27 +28,6 @@ export class Home {
 
   readonly products = PRODUCTS;
 
-  readonly team = [
-    {
-      name: 'Omar Jibrel',
-      role: 'Chief Executive Officer & Co-Founder',
-      photo: 'team/omar-jibrel.webp',
-      initials: 'OJ',
-    },
-    {
-      name: 'Berke Sengun',
-      role: 'Chief Medical Officer & Co-Founder',
-      photo: 'team/berke-sengun.webp',
-      initials: 'BS',
-    },
-    {
-      name: 'Zechang Xue',
-      role: 'Data Science Team Lead',
-      photo: 'team/zechang-xue.webp',
-      initials: 'ZX',
-    },
-  ];
-
   readonly creed = [
     { lead: 'Technology for those who', accent: 'care' },
     { lead: 'Innovation for those who', accent: 'save' },
@@ -60,48 +40,10 @@ export class Home {
     { icon: 'surgeons', title: 'Designed for those who operate' },
   ];
 
-  readonly partners = [
-    { name: 'Istanbul University — Faculty of Medicine', logo: 'partners/istanbul-faculty-of-medicine.webp' },
-    { name: 'İstanbul Üniversitesi', logo: 'partners/istanbul-universitesi.webp' },
-    { name: 'Clínic Barcelona', logo: 'partners/clinic-barcelona.webp' },
-    { name: 'Universitat Autònoma de Barcelona', logo: 'partners/universitat-autonoma-barcelona.webp' },
-    { name: 'Universitat de Barcelona', logo: 'partners/universitat-barcelona.webp' },
-  ];
-
-  /** Pinned on the globe; lat/lon are the office cities themselves. */
-  readonly offices: ReadonlyArray<GlobeMarker & { country: string; city: string; address: string }> = [
-    {
-      label: 'United Kingdom',
-      country: 'United Kingdom',
-      city: 'Cambridge',
-      address: '184 Cambridge Science Park, Milton Road, Cambridge, CB4 0GA, UK',
-      lat: 52.21,
-      lon: 0.09,
-      side: 'left',
-      region: 'GBR',
-    },
-    {
-      label: 'Netherlands',
-      country: 'Netherlands',
-      city: 'Utrecht',
-      address: 'Vinkenburgstraat 2A, 3512 AB Utrecht, The Netherlands',
-      lat: 52.09,
-      lon: 5.11,
-      side: 'right',
-      region: 'NLD',
-    },
-  ];
-
-  /** Tinted on the globe, without a pin — no single address to point at. */
-  readonly sites: readonly GlobeRegion[] = [
-    { code: 'TUR', label: 'Türkiye' },
-    { code: 'SAU', label: 'Saudi Arabia' },
-    { code: 'ESP', label: 'Spain' },
-    { code: 'DNK', label: 'Denmark' },
-    { code: 'CHE', label: 'Switzerland' },
-    { code: 'HUN', label: 'Hungary' },
-    { code: 'CAN', label: 'Canada' },
-  ];
+  readonly team = TEAM;
+  readonly partners = PARTNERS;
+  readonly offices = OFFICES;
+  readonly sites = SITES;
 
   readonly faqs = [
     {
@@ -142,6 +84,7 @@ export class Home {
     'A live demo',
     'Clinical evaluation / research partnership',
     'Integration with our theatre stack',
+    'Investor enquiry',
     'Careers at DeepSurg',
     'Something else',
   ];

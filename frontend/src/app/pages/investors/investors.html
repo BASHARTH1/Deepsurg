@@ -1,0 +1,176 @@
+<!-- ----------------------------------------------------------- header -->
+<section class="masthead">
+  <ds-nerve-background [density]="0.6" />
+
+  <div class="ds-container masthead__inner">
+    <span class="ds-eyebrow"><span class="ds-eyebrow__dot"></span>Investor relations</span>
+
+    <h1 class="masthead__title">
+      Building the layer<br />
+      <span class="ds-gradient-text">between surgeon and screen</span>
+    </h1>
+
+    <p class="ds-lead masthead__lead">
+      DeepSurg builds AI for the operating room: real-time visual support during a procedure, and
+      objective skill assessment around it. We work where the clinical question is asked, with the
+      teams who carry the outcome.
+    </p>
+
+    <div class="masthead__actions">
+      <a class="ds-btn ds-btn--primary" routerLink="/" fragment="contact">
+        Contact investor relations
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <a class="ds-btn ds-btn--ghost" href="mailto:omar&#64;deepsurg.ai">omar&#64;deepsurg.ai</a>
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- at a glance -->
+<section class="ds-section">
+  <div class="ds-container">
+    <header class="head">
+      <h2>At a glance</h2>
+    </header>
+
+    <dl class="facts">
+      @for (fact of facts; track fact.label) {
+        <div class="fact">
+          <dt>{{ fact.label }}</dt>
+          <dd>
+            <strong>{{ fact.value }}</strong>
+            <span>{{ fact.caption }}</span>
+          </dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ products -->
+<section class="ds-section ds-section--tint">
+  <div class="ds-container">
+    <header class="head">
+      <h2>What we sell</h2>
+      <p class="ds-lead">
+        Two products on one model stack — one inside the case, one around it.
+      </p>
+    </header>
+
+    <div class="ds-grid two">
+      @for (product of products; track product.id) {
+        <article class="ds-card line">
+          <span class="line__mark" aria-hidden="true">
+            <ds-product-icon [icon]="product.icon" />
+          </span>
+          <h3>{{ product.name }}</h3>
+          <p class="line__tagline">{{ product.tagline }}</p>
+          <p>{{ product.summary }}</p>
+          <a class="line__more" routerLink="/products" [fragment]="product.id">
+            Product detail
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.7"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- footprint -->
+<section class="ds-section">
+  <div class="ds-container">
+    <header class="head">
+      <h2>Where we operate</h2>
+    </header>
+
+    <div class="footprint">
+      <div>
+        <h3 class="footprint__title">Offices</h3>
+        <ul class="footprint__list footprint__list--office">
+          @for (office of offices; track office.country) {
+            <li>
+              <strong>{{ office.city }}</strong>
+              <span>{{ office.country }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footprint__title">Partnership &amp; project sites</h3>
+        <ul class="footprint__list footprint__list--site">
+          @for (site of sites; track site.code) {
+            <li><strong>{{ site.label }}</strong></li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="clinical">
+      <h3 class="footprint__title">Clinical &amp; academic partners</h3>
+      <ul class="clinical__logos">
+        @for (partner of partners; track partner.name) {
+          <li><img [src]="partner.logo" [alt]="partner.name" loading="lazy" /></li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------------- team -->
+<section class="ds-section ds-section--tint">
+  <div class="ds-container">
+    <header class="head">
+      <h2>Who is building it</h2>
+    </header>
+
+    <ul class="people">
+      @for (person of team; track person.name) {
+        <li class="ds-card person">
+          @if (person.photo) {
+            <img class="person__photo" [src]="person.photo" [alt]="person.name" width="96"
+                 height="96" loading="lazy" />
+          } @else {
+            <span class="person__photo person__photo--initials" aria-hidden="true">
+              {{ person.initials }}
+            </span>
+          }
+          <div>
+            <h3>{{ person.name }}</h3>
+            <p>{{ person.role }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------------- contact -->
+<section class="ds-section">
+  <div class="ds-container">
+    <div class="ask">
+      <div>
+        <h2>Talk to us</h2>
+        <p>
+          For the investor materials, clinical evidence, or an introduction to the team, write to
+          <a href="mailto:omar&#64;deepsurg.ai">omar&#64;deepsurg.ai</a> or use the contact form and
+          pick <strong>Investor enquiry</strong>.
+        </p>
+      </div>
+
+      <a class="ds-btn ds-btn--primary" routerLink="/" fragment="contact">
+        Contact investor relations
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h9m0 0-3.4-3.4M12 8l-3.4 3.4" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

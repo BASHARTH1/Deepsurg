@@ -1,0 +1,342 @@
+/* ------------------------------------------------------------- masthead */
+
+.masthead {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: calc(var(--ds-header-h) * -1);
+  padding-block: calc(var(--ds-header-h) + clamp(48px, 6vw, 84px)) clamp(48px, 6vw, 80px);
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.masthead__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.masthead__title {
+  margin: 22px 0 0;
+  font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+}
+
+.masthead__lead {
+  margin: 16px auto 0;
+  color: var(--ds-slate);
+  text-wrap: balance;
+}
+
+.masthead__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.masthead__actions .ds-btn {
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------- facts */
+
+.head {
+  max-width: 720px;
+  margin-bottom: 30px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  background: var(--ds-line);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px 26px;
+  background: var(--ds-white);
+}
+
+.fact dt {
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ds-slate-light);
+}
+
+.fact dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fact strong {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: var(--ds-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.fact span {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--ds-slate);
+}
+
+/* ------------------------------------------------------------ products */
+
+.two {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.line__mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  border-radius: 15px;
+  color: #fff;
+  background: var(--ds-gradient);
+}
+
+.line__mark ds-product-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.line h3 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+}
+
+.line__tagline {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ds-blue-700);
+}
+
+.line p {
+  margin: 0;
+  flex: 1;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--ds-slate);
+}
+
+.line__more {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 7px;
+  margin-top: 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ds-blue-700);
+  transition: gap 0.2s ease;
+}
+
+.line__more:hover {
+  gap: 11px;
+}
+
+/* ----------------------------------------------------------- footprint */
+
+.footprint {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.footprint__title {
+  margin: 0 0 14px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ds-slate-light);
+}
+
+.footprint__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footprint__list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--ds-line);
+  border-radius: 999px;
+  background: var(--ds-white);
+}
+
+.footprint__list strong {
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.footprint__list span {
+  font-size: 0.8rem;
+  color: var(--ds-slate-light);
+}
+
+/* Same two colours the globe uses. */
+.footprint__list--office li {
+  border-left: 3px solid #e12834;
+}
+
+.footprint__list--site li {
+  border-left: 3px solid var(--ds-purple-500);
+}
+
+.clinical {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.clinical__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(20px, 4vw, 46px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clinical__logos img {
+  width: 130px;
+  height: 62px;
+  object-fit: contain;
+}
+
+/* ---------------------------------------------------------------- team */
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.person__photo {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--ds-mist);
+  box-shadow: 0 0 0 1px var(--ds-blue-100), 0 0 0 5px var(--ds-blue-50);
+}
+
+.person__photo--initials {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, var(--ds-blue-50), var(--ds-purple-50));
+  color: var(--ds-blue-600);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.person h3 {
+  margin: 0 0 3px;
+  font-size: 1.02rem;
+}
+
+.person p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ds-slate);
+}
+
+/* ------------------------------------------------------------- contact */
+
+.ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  background: linear-gradient(140deg, var(--ds-blue-50), var(--ds-purple-50));
+}
+
+.ask h2 {
+  margin: 0 0 8px;
+}
+
+.ask p {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ds-slate);
+}
+
+.ask a:not(.ds-btn) {
+  color: var(--ds-blue-700);
+  font-weight: 600;
+}
+
+.ask .ds-btn {
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footprint {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}

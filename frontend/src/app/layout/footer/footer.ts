@@ -28,6 +28,7 @@ import { RouterLink } from '@angular/router';
         <nav class="ft__col" aria-label="Company">
           <h4>Company</h4>
           <a routerLink="/blog">Blog</a>
+          <a routerLink="/investors">Investor relations</a>
           <a routerLink="/" fragment="faq">FAQ</a>
           <a routerLink="/" fragment="contact">Contact</a>
         </nav>

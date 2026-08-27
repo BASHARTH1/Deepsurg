@@ -208,6 +208,7 @@ export class Header {
     { label: 'Platform', fragment: 'platform' },
     { label: 'Leadership', fragment: 'team' },
     { label: 'Partners', fragment: 'partners' },
+    { label: 'Investors', path: '/investors' },
     { label: 'FAQ', fragment: 'faq' },
   ];
 

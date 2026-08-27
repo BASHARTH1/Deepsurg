@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/blog/blog-post').then((m) => m.BlogPost),
   },
   {
+    path: 'investors',
+    title: 'Investor relations — DeepSurg',
+    loadComponent: () => import('./pages/investors/investors').then((m) => m.Investors),
+  },
+  {
     path: 'admin',
     title: 'Admin — DeepSurg',
     loadComponent: () => import('./pages/admin/admin').then((m) => m.Admin),
